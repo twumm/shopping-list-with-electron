@@ -5,9 +5,10 @@ const path = require('path');
 const { app, BrowserWindow, Menu } = electron;
 
 let mainWindow;
+let addWindow;
 
 // Listen for the app to be ready
-app.on('ready', function() {
+app.on('ready', function () {
   // Create new window
   mainWindow = new BrowserWindow({});
   // Load html into window
@@ -16,12 +17,33 @@ app.on('ready', function() {
     protocol: 'file:',
     slashes: true
   })); // This gives file://dirname/mainWindow.html
+  
+  // Quit app when closed
+  mainWindow.on('closed', function(){
+    app.quit();
+  })
 
   // Build menu from template
   const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
   // Insert menu
   Menu.setApplicationMenu(mainMenu);
 });
+
+// Handle create add window
+function createAddWindow() {
+  // Create new window
+  addWindow = new BrowserWindow({
+    width: 300,
+    height: 200,
+    title: 'Add Shopping List Item'
+  });
+  // Load html into window
+  addWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'addWindow.html'),
+    protocol: 'file:',
+    slashes: true
+  })); // This gives file://dirname/mainWindow.html
+}
 
 // Create menu template
 const mainMenuTemplate = [
@@ -30,7 +52,7 @@ const mainMenuTemplate = [
     submenu: [
       {
         label: 'Add Item',
-        click(){
+        click() {
           createAddWindow();
         }
       },
@@ -40,8 +62,8 @@ const mainMenuTemplate = [
       {
         label: 'Quit',
         accelerator: process.platform == 'darwin' ? 'Command+Q' :
-        'Ctrl+Q',
-        click(){
+          'Ctrl+Q',
+        click() {
           app.quit();
         }
       }
