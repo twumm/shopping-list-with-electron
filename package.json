@@ -2,9 +2,9 @@
   "name": "electron-shop-app",
   "version": "1.0.0",
   "description": "A shopping list app made with electron",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "author": "twumm",
   "license": "ISC",
