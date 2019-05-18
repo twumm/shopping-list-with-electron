@@ -42,7 +42,11 @@ function createAddWindow() {
     pathname: path.join(__dirname, 'addWindow.html'),
     protocol: 'file:',
     slashes: true
-  })); // This gives file://dirname/mainWindow.html
+  })); // This gives file://dirname/addWindow.html
+  // Garbage collection handle
+  addWindow.on('close', function(){
+    addWindow = null;
+  })
 }
 
 // Create menu template
@@ -70,3 +74,6 @@ const mainMenuTemplate = [
     ]
   }
 ];
+
+// If mac, add empty object to menu
+if (process.platform == 'darwin') mainMenuTemplate.unshift({});
